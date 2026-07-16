@@ -59,8 +59,8 @@
       background: #111;
       color: #eee;
       border-radius: 12px;
-      padding: 32px 36px;
-      max-width: 900px;
+      padding: clamp(16px, 2.5vw, 28px) clamp(20px, 3vw, 32px);
+      max-width: min(680px, 90vw);
       width: 90%;
       max-height: 85vh;
       overflow-y: auto;
@@ -70,15 +70,15 @@
 
     #infoModal h2 {
       margin: 0 0 8px 0;
-      font-size: 1.8em;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
       color: #fff;
     }
 
     #infoModal .intro-text {
       line-height: 1.6;
-      font-size: 1.1em;
+      font-size: clamp(0.85rem, 1.1vw, 0.95rem);
       color: #ccc;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     #infoModal .manuscript-link {
@@ -87,9 +87,9 @@
     }
 
     #infoModal h3 {
-      font-size: 1.3em;
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
       color: #fff;
-      margin: 28px 0 14px 0;
+      margin: 22px 0 12px 0;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -98,8 +98,8 @@
     /* Card grid for "How it works" */
     .info-card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
       margin-bottom: 8px;
     }
 
@@ -107,20 +107,20 @@
       background: #1a1a1a;
       border: 1px solid #2a2a2a;
       border-radius: 8px;
-      padding: 14px 16px;
+      padding: clamp(10px, 1.2vw, 14px) clamp(12px, 1.4vw, 16px);
     }
 
     .info-card .card-title {
       color: #6fa8ff;
       font-weight: bold;
-      font-size: 1.5em;
+      font-size: clamp(0.95rem, 1.3vw, 1.15rem);
       display: block;
       margin-bottom: 6px;
     }
 
     .info-card .card-text {
       color: #bbb;
-      font-size: 1em;
+      font-size: clamp(0.8rem, 1vw, 0.9rem);
       line-height: 1.45;
     }
 
@@ -130,9 +130,9 @@
       background: #2a1f14;
       border: 1px solid #5c4423;
       border-radius: 8px;
-      padding: 12px 16px;
-      margin-top: 24px;
-      font-size: 0.85em;
+      padding: 10px 14px;
+      margin-top: 20px;
+      font-size: clamp(0.75rem, 0.9vw, 0.85rem);
       color: #d9b98a;
       line-height: 1.5;
     }
@@ -143,13 +143,13 @@
 
     #infoOkBtn {
       display: block;
-      margin: 28px auto 0;
-      padding: 10px 32px;
+      margin: 22px auto 0;
+      padding: 8px 26px;
       background: #2d7dfa;
       color: white;
       border: none;
       border-radius: 6px;
-      font-size: 1em;
+      font-size: clamp(0.85rem, 1vw, 1rem);
       font-weight: bold;
       cursor: pointer;
       transition: background 0.2s;
@@ -186,7 +186,7 @@
 
       <p class="intro-text">
         This tool simulates the movement and behaviour of acoustically tagged fish within a defined space equipped with acoustic telemetry receivers. It's designed to help researchers plan field studies and test new methodologies in a controlled environment.
-        A detailed description can be found in the accompanying manuscript (<a >URL</a>).
+        A detailed description can be found in the accompanying manuscript (<a class="manuscript-link" href="#">URL</a>).
       </p>
 
       <h3>Simulation elements</h3>
@@ -211,13 +211,13 @@
 
       <h3>Two modes</h3>
       <div class="info-card-grid">
-        <div class="info-card"">
+        <div class="info-card">
           <span class="card-title">Real-time visualisation (default setting)</span>
           <span class="card-text">Used to setup the proposed receiver array design and to observe the simulated individuals. </span>
         </div>
         <div class="info-card">
           <span class="card-title">Fast simulation (optional)</span>
-          <span class="card-text">Mode to simulate multiple days by seelecting select the number of days and clicking run. Depending on the size of the study area, number of fish/receiver, this might take while. This functionality is currently limited to three days to avoid RAM issues in the browser. Once the simulation is completed (indicated by the message “Fast simulation complete!” in the UI), the simulated data can be downloaded as a .zip file.</span>
+          <span class="card-text">Mode to simulate multiple days by selecting the number of days and clicking run. Depending on the size of the study area, number of fish/receiver, this might take a while. This functionality is currently limited to three days to avoid RAM issues in the browser. Once the simulation is completed (indicated by the message "Fast simulation complete!" in the UI), the simulated data can be downloaded as a .zip file.</span>
         </div>
       </div>
 
