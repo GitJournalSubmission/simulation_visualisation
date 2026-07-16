@@ -4,41 +4,32 @@ function setupUI_shape() {
     const container = document.createElement('div');
     container.id = 'shapeUI';
     container.style.position = 'fixed';
-    container.style.top = '10px';
+    container.style.top = '1vh';
     container.style.left = '20px';
-    container.style.backgroundColor = '#094e5f';
+    container.style.backgroundColor = '#032632';
     container.style.padding = '15px';
     container.style.borderRadius = '8px';
     container.style.color = '#b2c2c2';
     container.style.fontFamily = 'Arial, sans-serif';
-    container.style.zIndex = '100'; // Ensure it's above other elements
-    container.style.width = '450px'; // Set fixed width for the whole UI
+    container.style.zIndex = '100';
+    container.style.width = '450px';
     container.style.boxSizing = 'border-box';
-    container.style.height = '90vh'; 
+    container.style.height = '100vh';
     container.style.overflowY = 'auto';
     document.body.appendChild(container);
-  
+
     // Create title
     const title = document.createElement('h3');
-    title.textContent = 'Simulate tracks and detections';
+    title.textContent = 'Simulation settings';
     title.style.margin = '0 0 15px 0';
     container.appendChild(title);
-  
-    // Create input form
-    const form = document.createElement('form');
-    form.style.display = 'flex';
-    form.style.flexDirection = 'column';
-    form.style.gap = '10px';
-    container.appendChild(form);
-  
-    
 
-    // Random seed input
+    // Random seed input (kept outside the Study area box, directly in container)
     const seedRow = document.createElement('div');
     seedRow.style.display = 'flex';
     seedRow.style.alignItems = 'center';
     seedRow.style.marginBottom = '10px';
-    form.appendChild(seedRow);
+    container.appendChild(seedRow);
 
     const seedLabel = document.createElement('label');
     seedLabel.htmlFor = 'randomSeed';
@@ -55,7 +46,6 @@ function setupUI_shape() {
     seedInput.style.marginRight = '10px';
     seedRow.appendChild(seedInput);
 
-     // Add Set button next to the seed input
     const setSeedBtn = document.createElement('button');
     setSeedBtn.textContent = 'Set';
     setSeedBtn.type = 'button';
@@ -67,17 +57,39 @@ function setupUI_shape() {
     setSeedBtn.style.cursor = 'pointer';
     seedRow.appendChild(setSeedBtn);
 
-    // Set seed event handler
     setSeedBtn.addEventListener('click', () => {
-    seedValue = seedInput.value;
-    if (seedValue && !isNaN(seedValue)) {
-        setFishRandomSeed(parseInt(seedValue));
-        setReceiverRandomSeed(parseInt(seedValue)); // Use the same seed for both
-        alert('Random seed set to ' + seedValue);
-    } else {
-        alert('Please enter a valid seed value.');
-    }
-});
+        seedValue = seedInput.value;
+        if (seedValue && !isNaN(seedValue)) {
+            setFishRandomSeed(parseInt(seedValue));
+            setReceiverRandomSeed(parseInt(seedValue));
+            alert('Random seed set to ' + seedValue);
+        } else {
+            alert('Please enter a valid seed value.');
+        }
+    });
+
+    // Study area box
+    const studyAreaSection = document.createElement('div');
+    studyAreaSection.style.marginTop = '10px';
+    studyAreaSection.style.border = '1px solid #0a6277';
+    studyAreaSection.style.backgroundColor = '#1c364c';
+    studyAreaSection.style.borderRadius = '6px';
+    studyAreaSection.style.padding = '15px';
+    studyAreaSection.style.boxSizing = 'border-box';
+    container.appendChild(studyAreaSection);
+
+    // Study area section title
+    const studyAreaTitle = document.createElement('h3');
+    studyAreaTitle.textContent = 'Study area';
+    studyAreaTitle.style.margin = '0 0 15px 0';
+    studyAreaSection.appendChild(studyAreaTitle);
+
+    // Create input form — now correctly nested inside studyAreaSection
+    const form = document.createElement('form');
+    form.style.display = 'flex';
+    form.style.flexDirection = 'column';
+    form.style.gap = '10px';
+    studyAreaSection.appendChild(form);
 
     // Instructions
     const instructions = document.createElement('p');
@@ -86,7 +98,7 @@ function setupUI_shape() {
     instructions.style.fontSize = '14px';
     instructions.style.fontStyle = 'italic';
     form.appendChild(instructions);
-  
+
     // Max X and Max Y coordinate inputs in the same row
     const coordinateRow = document.createElement('div');
     coordinateRow.style.display = 'flex';
@@ -126,8 +138,8 @@ function setupUI_shape() {
     maxYInput.style.width = '60px';
     maxYInput.style.padding = '5px';
     coordinateRow.appendChild(maxYInput);
-  
-    // Add Max Z (depth) c
+
+    // Max Z (depth)
     const maxZLabel = document.createElement('label');
     maxZLabel.htmlFor = 'maxZ';
     maxZLabel.textContent = 'Z (Depth):';
@@ -143,7 +155,7 @@ function setupUI_shape() {
     maxZInput.style.width = '60px';
     maxZInput.style.padding = '5px';
     coordinateRow.appendChild(maxZInput);
-  
+
     // Create shape button
     const setBtn = document.createElement('button');
     setBtn.textContent = 'Create Shape';
@@ -155,10 +167,8 @@ function setupUI_shape() {
     setBtn.style.borderRadius = '4px';
     setBtn.style.cursor = 'pointer';
     form.appendChild(setBtn);
-  
 
-  
-    // Current rectangle info
+    // Current rectangle info — now correctly nested inside studyAreaSection
     const rectInfo = document.createElement('div');
     rectInfo.id = 'rectInfo';
     rectInfo.style.marginTop = '15px';
@@ -166,15 +176,14 @@ function setupUI_shape() {
     rectInfo.style.padding = '5px';
     rectInfo.style.borderRadius = '4px';
     rectInfo.innerHTML = '<strong>Current shape dimensions (in m):</strong>';
-    container.appendChild(rectInfo);
-  
+    studyAreaSection.appendChild(rectInfo);
+
     // Button event handlers
     setBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      shape_setRectangle();
+        e.preventDefault();
+        shape_setRectangle();
     });
 }
-
 
 function setupUI_fish() {
     // Calculate position based on shape UI height
@@ -183,13 +192,17 @@ function setupUI_fish() {
     // Create fish controls section
     const fishSection = document.createElement('div');
     fishSection.style.marginTop = '20px';
-    fishSection.style.borderTop = '1px solid #0a6277';
+    fishSection.style.border = '1px solid #0a6277';
+    fishSection.style.backgroundColor = '#1c364c';
+    fishSection.style.borderRadius = '6px';
+    fishSection.style.padding = '15px';
+    fishSection.style.boxSizing = 'border-box';
     container.appendChild(fishSection);
   
     // Fish section title
     const fishTitle = document.createElement('h3');
-    fishTitle.textContent = 'Fish Simulation';
-    fishTitle.style.margin = '10 0 5px 0';
+    fishTitle.textContent = 'Fish';
+    fishTitle.style.margin = '0 0 15px 0';
     fishSection.appendChild(fishTitle);
 
     // Create a container for fish count and label control
@@ -399,6 +412,7 @@ homeRangeDiv.appendChild(homeAreaStdInput);
 // Create tabs for Active and Resting states
 const tabContainer = document.createElement('div');
 tabContainer.style.display = 'flex';
+tabContainer.style.marginTop = '10px';
 tabContainer.style.marginBottom = '10px';
 movementParamsSection.appendChild(tabContainer);
 
@@ -731,13 +745,16 @@ function setupUI_receiver() {
   // Create receiver controls section
   const receiverSection = document.createElement('div');
   receiverSection.style.marginTop = '20px';
-  receiverSection.style.borderTop = '1px solid #0a6277';
-  receiverSection.style.paddingTop = '15px';
+  receiverSection.style.border = '1px solid #0a6277';
+  receiverSection.style.backgroundColor = '#1c364c';
+  receiverSection.style.borderRadius = '6px';
+  receiverSection.style.padding = '15px';
+  receiverSection.style.boxSizing = 'border-box';
   container.appendChild(receiverSection);
 
   // Receiver section title
   const receiverTitle = document.createElement('h3');
-  receiverTitle.textContent = 'Receiver Placement';
+  receiverTitle.textContent = 'Receiver array';
   receiverTitle.style.margin = '0 0 15px 0';
   receiverSection.appendChild(receiverTitle);
 
@@ -1095,12 +1112,15 @@ function setupUI_simulation() {
 
     const simTimeDiv = document.createElement('div');
     simTimeDiv.style.marginTop = '20px';
-    simTimeDiv.style.borderTop = '1px solid #0a6277';
-    simTimeDiv.style.paddingTop = '15px';
+    simTimeDiv.style.border = '1px solid #0a6277';
+    simTimeDiv.style.backgroundColor = '#1c364c';
+    simTimeDiv.style.borderRadius = '6px';
+    simTimeDiv.style.padding = '15px';
+    simTimeDiv.style.boxSizing = 'border-box';
     container.appendChild(simTimeDiv);
 
     const simTitle = document.createElement('h3');
-    simTitle.textContent = 'Simulate timeseries data';
+    simTitle.textContent = 'Fast simulation (timeseries data)';
     simTitle.style.margin = '0 0 15px 0';
     simTimeDiv.appendChild(simTitle);
 
@@ -1182,8 +1202,11 @@ function setupUI_download_button() {
     // Add separator for download section
     const downloadSection = document.createElement('div');
     downloadSection.style.marginTop = '20px';
-    downloadSection.style.borderTop = '1px solid #0a6277';
-    downloadSection.style.paddingTop = '15px';
+    downloadSection.style.border = '1px solid #0a6277';
+    downloadSection.style.backgroundColor = '#1c364c';
+    downloadSection.style.borderRadius = '6px';
+    downloadSection.style.padding = '15px';
+    downloadSection.style.boxSizing = 'border-box';
     container.appendChild(downloadSection);
     
     // Download section title
