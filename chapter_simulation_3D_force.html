@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Detection Simulation</title>
+  <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.19"></script>
+  <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000000;
+    }
+
+    .canvas-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    canvas {
+      background-color: rgb(0, 0, 0);
+      padding: 1vh;
+      border-radius: 8px;
+      width: 80vw;
+      height: 80vh;
+    }
+
+    #shapeUI {
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #020202 #ffffff00;
+    }
+
+    #shapeUI::-webkit-scrollbar { width: 8px; background: transparent; }
+    #shapeUI::-webkit-scrollbar-thumb { background: #000000; border-radius: 4px; opacity: 0.7; }
+    #shapeUI::-webkit-scrollbar-track { background: transparent; }
+
+    /* --- Info modal overlay --- */
+    #infoOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #infoOverlay.hidden { display: none; }
+
+    #infoModal {
+      background: #111;
+      color: #eee;
+      border-radius: 12px;
+      padding: 32px 36px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+      font-family: Arial, sans-serif;
+    }
+
+    #infoModal h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.8em;
+      color: #fff;
+    }
+
+    #infoModal .intro-text {
+      line-height: 1.6;
+      font-size: 1.1em;
+      color: #ccc;
+      margin-bottom: 24px;
+    }
+
+    #infoModal .manuscript-link {
+      color: #6fa8ff;
+      text-decoration: underline;
+    }
+
+    #infoModal h3 {
+      font-size: 1.3em;
+      color: #fff;
+      margin: 28px 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Card grid for "How it works" */
+    .info-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .info-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .info-card .card-title {
+      color: #6fa8ff;
+      font-weight: bold;
+      font-size: 1.5em;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .info-card .card-text {
+      color: #bbb;
+      font-size: 1em;
+      line-height: 1.45;
+    }
+
+
+    /* Disclaimer box */
+    #infoModal .disclaimer-box {
+      background: #2a1f14;
+      border: 1px solid #5c4423;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 24px;
+      font-size: 0.85em;
+      color: #d9b98a;
+      line-height: 1.5;
+    }
+
+    #infoModal .disclaimer-box b {
+      color: #f0c987;
+    }
+
+    #infoOkBtn {
+      display: block;
+      margin: 28px auto 0;
+      padding: 10px 32px;
+      background: #2d7dfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #infoOkBtn:hover { background: #1e5fd0; }
+
+    /* --- Reopen info button --- */
+    #infoReopenBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 999;
+      background: #2d7dfa;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    #infoReopenBtn:hover { background: #1e5fd0; }
+  </style>
+</head>
+<body>
+
+  <!-- Intro / Info Modal -->
+  <div id="infoOverlay">
+    <div id="infoModal">
+      <h2>Fish movement &amp; acoustic telemetry detection modeling</h2>
+
+      <p class="intro-text">
+        This tool simulates the movement and behaviour of acoustically tagged fish within a defined space equipped with acoustic telemetry receivers. It's designed to help researchers plan field studies and test new methodologies in a controlled environment.
+        A detailed description can be found in the accompanying manuscript (<a >URL</a>).
+      </p>
+
+      <h3>Simulation elements</h3>
+      <div class="info-card-grid">
+        <div class="info-card">
+          <span class="card-title">Study area</span>
+          <span class="card-text">Define the size and depth of the study area (in meters).</span>
+        </div>
+        <div class="info-card">
+          <span class="card-title">Fish behaviour</span>
+          <span class="card-text">Each simulated fish moves within its home range and switches between active (feeding, exploring) and resting (cruising) states, influenced by individual movement parameters, social interactions with nearby fish.</span>
+        </div>
+        <div class="info-card">
+          <span class="card-title">Receiver array</span>
+          <span class="card-text">Place acoustic receivers within the habitat to detect nearby fish, simulating a real-world telemetry array used in fish tracking research. The 80% detection range can be selected and a placing error applied. Below 10% placing error the layout of the receivers can be changed to a fine-scale array layout (VPS)</span>
+        </div>
+        <div class="info-card">
+          <span class="card-title">Detection simulation</span>
+          <span class="card-text">Each fish is equipped with an acoustic tag that randomly pings in 30-90 seconds intervals. As fish move through the study area, the simulation calculates whether each receiver would detect them based on distance and detection probability.</span>
+        </div>
+      </div>
+
+      <h3>Two modes</h3>
+      <div class="info-card-grid">
+        <div class="info-card"">
+          <span class="card-title">Real-time visualisation (default setting)</span>
+          <span class="card-text">Used to setup the proposed receiver array design and to observe the simulated individuals. </span>
+        </div>
+        <div class="info-card">
+          <span class="card-title">Fast simulation (optional)</span>
+          <span class="card-text">Mode to simulate multiple days by seelecting select the number of days and clicking run. Depending on the size of the study area, number of fish/receiver, this might take while. This functionality is currently limited to three days to avoid RAM issues in the browser. Once the simulation is completed (indicated by the message “Fast simulation complete!” in the UI), the simulated data can be downloaded as a .zip file.</span>
+        </div>
+      </div>
+
+      <div class="disclaimer-box">
+        <b>Disclaimer:</b> This is a work in progress and might not represent the full extent of the published simulation.<br>
+        The latest version of the non-visualised simulation can be found at: XYZ
+      </div>
+
+      <button id="infoOkBtn">OK</button>
+    </div>
+  </div>
+
+  <!-- Button to reopen info at any time -->
+  <button id="infoReopenBtn" title="Info">Info</button>
+
+  <div class="canvas-container">
+    <canvas id="trailCanvas"></canvas>
+  </div>
+
+  <script src="force_sim_main_3D.js"></script>
+
+  <script>
+    const overlay = document.getElementById('infoOverlay');
+    const okBtn = document.getElementById('infoOkBtn');
+    const reopenBtn = document.getElementById('infoReopenBtn');
+
+    okBtn.addEventListener('click', () => {
+      overlay.classList.add('hidden');
+    });
+
+    reopenBtn.addEventListener('click', () => {
+      overlay.classList.remove('hidden');
+    });
+  </script>
+
+</body>
+</html>

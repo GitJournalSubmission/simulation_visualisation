@@ -1,0 +1,30 @@
+- Home range setting UI
+
+
+
+- subpopulaitions
+
+Fix to make sure to get the same output files 
+- specifically the sim settings
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
