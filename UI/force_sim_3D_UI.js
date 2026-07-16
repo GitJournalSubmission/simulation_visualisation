@@ -216,7 +216,7 @@ function setupUI_fish() {
     const fishCountInput = document.createElement('input');
     fishCountInput.type = 'number';
     fishCountInput.id = 'fishCount';
-    fishCountInput.value = '1';
+    fishCountInput.value = '5';
     fishCountInput.min = '0';
     fishCountInput.max = '100';
     fishCountInput.style.width = '50px';
@@ -380,10 +380,10 @@ homeRangeDiv.appendChild(homeAreaLabel);
 const homeAreaInput = document.createElement('input');
 homeAreaInput.type = 'number';
 homeAreaInput.id = 'homeAreaMean';
-homeAreaInput.value = 0.01;
-homeAreaInput.min = 0.0001;
+homeAreaInput.value = 10;
+homeAreaInput.min = 1;
 homeAreaInput.max = 1000;
-homeAreaInput.step = 0.001;
+homeAreaInput.step = 0.1;
 homeAreaInput.style.width = '80px';
 homeAreaInput.style.padding = '5px';
 homeRangeDiv.appendChild(homeAreaInput);
@@ -460,7 +460,7 @@ stateDurationDiv.appendChild(restingDurationLabel);
 const restingDurationInput = document.createElement('input');
 restingDurationInput.type = 'number';
 restingDurationInput.id = 'restingDuration';
-restingDurationInput.value = '3';
+restingDurationInput.value = '170';
 restingDurationInput.min = '1';
 restingDurationInput.style.width = '60px';
 restingDurationInput.style.marginRight = '60px';
@@ -474,7 +474,7 @@ stateDurationDiv.appendChild(activeDurationLabel);
 const activeDurationInput = document.createElement('input');
 activeDurationInput.type = 'number';
 activeDurationInput.id = 'activeDuration';
-activeDurationInput.value = '3';
+activeDurationInput.value = '30';
 activeDurationInput.min = '1';
 activeDurationInput.style.width = '60px';
 stateDurationDiv.appendChild(activeDurationInput);
@@ -486,10 +486,10 @@ movementParamsSection.appendChild(probDiv);
 
 probDiv.innerHTML = `
   <label><strong>State transition probabilities (%):</strong></label><br>
-  <label>Resting → Resting: <input type="number" id="probRestRest" value="0" min="0" max="100" style="width:60px;"></label><br>
-  <label>Resting → Active: <input type="number" id="probRestActive" value="100" min="0" max="100" style="width:60px; margin-left:10px;"></label><br>
-  <label>Active → Active: <input type="number" id="probActiveActive" value="0" min="0" max="100" style="width:60px;"></label><br>
-  <label>Active → Resting: <input type="number" id="probActiveRest" value="100" min="0" max="100" style="width:60px; margin-left:10px;"></label>
+  <label>Resting → Resting: <input type="number" id="probRestRest" value="80" min="0" max="100" style="width:60px;"></label><br>
+  <label>Resting → Active: <input type="number" id="probRestActive" value="20" min="0" max="100" style="width:60px; margin-left:10px;"></label><br>
+  <label>Active → Active: <input type="number" id="probActiveActive" value="20" min="0" max="100" style="width:60px;"></label><br>
+  <label>Active → Resting: <input type="number" id="probActiveRest" value="80" min="0" max="100" style="width:60px; margin-left:10px;"></label>
 `;
 
 // Store config globally
@@ -774,7 +774,7 @@ function setupUI_receiver() {
   const receiverCountInput = document.createElement('input');
   receiverCountInput.type = 'number';
   receiverCountInput.id = 'receiverCount';
-  receiverCountInput.value = '5';
+  receiverCountInput.value = '12';
   receiverCountInput.min = '1';
   receiverCountInput.max = '50';
   receiverCountInput.style.width = '50px';
@@ -1141,7 +1141,7 @@ function setupUI_simulation() {
     durationInput.type = 'number';
     durationInput.id = 'simDuration';
     durationInput.value = '1';
-    durationInput.min = '0.01';
+    durationInput.min = '1';
     durationInput.max = '3';          // changed from 365 to 3
     durationInput.style.width = '60px';
     durationInput.style.padding = '5px';
