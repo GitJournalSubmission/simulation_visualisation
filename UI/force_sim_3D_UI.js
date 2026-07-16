@@ -185,6 +185,9 @@ function setupUI_shape() {
     });
 }
 
+
+
+
 function setupUI_fish() {
     // Calculate position based on shape UI height
     const container = document.querySelector('div[style*="position: fixed"]');    
@@ -1275,13 +1278,47 @@ function setupUI_clear_button() {
 
 }
 
+function setupUI_collapseToggle() {
+    const container = document.getElementById('shapeUI');
+    if (!container) {
+        console.warn('shapeUI container not found — check call order');
+        return;
+    }
 
+    container.style.transition = 'transform 0.3s ease-in-out';
 
+    const toggleBtn = document.createElement('button');
+    document.body.appendChild(toggleBtn);
 
+    toggleBtn.id = 'menuToggleBtn';
+    toggleBtn.textContent = '◀';
+    toggleBtn.style.position = 'fixed';
+    toggleBtn.style.top = '1vh';
+    toggleBtn.style.left = '480px'; 
+    toggleBtn.style.padding = '10px 14px';
+    toggleBtn.style.fontSize = '16px';
+    toggleBtn.style.backgroundColor = '#11071f';
+    toggleBtn.style.color = '#ffffff';
+    toggleBtn.style.border = '2px solid white';
+    toggleBtn.style.borderRadius = '4px';
+    toggleBtn.style.cursor = 'pointer';
+    toggleBtn.style.transition = 'left 0.3s ease-in-out';
 
+    let collapsed = false;
 
-
-
+    toggleBtn.addEventListener('click', () => {
+        collapsed = !collapsed;
+        if (collapsed) {
+            container.style.transform = 'translateX(-100%)';
+            toggleBtn.style.left = '30px'; 
+            toggleBtn.textContent = '▶';
+        } else {
+            container.style.transform = 'translateX(0)';
+            toggleBtn.style.left = '480px'; 
+            toggleBtn.textContent = '◀';
+        }
+    });
+}
 
 
 
