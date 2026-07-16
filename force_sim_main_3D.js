@@ -106,6 +106,7 @@ function load_UIScript() {
     setupUI_simulation();
     setupUI_download_button();
     setupUI_clear_button();
+    setupUI_collapseToggle();
   };
   
   script.onerror = function() {
