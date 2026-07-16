@@ -450,6 +450,11 @@ movementParamsSection.appendChild(restingPanel);
 // --- Add state duration controls ---
 const stateDurationDiv = document.createElement('div');
 stateDurationDiv.style.margin = '15px 0 10px 0';
+stateDurationDiv.style.display = 'grid';
+stateDurationDiv.style.gridTemplateColumns = 'auto 80px'; // label column, input column
+stateDurationDiv.style.rowGap = '8px';
+stateDurationDiv.style.columnGap = '10px';
+stateDurationDiv.style.alignItems = 'center';
 movementParamsSection.appendChild(stateDurationDiv);
 
 const restingDurationLabel = document.createElement('label');
