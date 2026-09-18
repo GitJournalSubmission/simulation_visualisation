@@ -50,7 +50,7 @@ function socialForce(fish, fishes) {
 
         if (dist < fish.socialRadius && other.state === "resting") {
             const sameSubpop = (other.subpopulationId === fish.subpopulationId);
-            const weight = sameSubpop ? socialAffinitySame : socialAffinityDifferent;
+            const weight = 1
 
             // Robust heading for neighbors at (near) zero speed
             const otherSpeed = other.velocity ? other.velocity.norm() : 0;
